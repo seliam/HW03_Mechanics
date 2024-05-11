@@ -46,7 +46,7 @@ public class TimeTable extends JFrame implements ActionListener {
 		}
 
 		field[0].setText("17");
-		field[1].setText("381");
+		field[1].setText("543");
 		field[2].setText("ute-s-92.stu");
 		field[3].setText("1");
 	}
@@ -69,11 +69,13 @@ public class TimeTable extends JFrame implements ActionListener {
 	}
 
 	public void actionPerformed(ActionEvent click) {
-		int min, step, clashes;
+		int min = Integer.MAX_VALUE, step = 0, clashes;
 
 		switch (getButtonIndex((JButton) click.getSource())) {
 			case 0:
 				int slots = Integer.parseInt(field[0].getText());
+				min = Integer.MAX_VALUE;
+				step =0;
 				courses = new CourseArray(Integer.parseInt(field[1].getText()) + 1, slots);
 				courses.readClashes(field[2].getText());
 				draw();
