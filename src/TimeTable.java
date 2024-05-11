@@ -46,7 +46,7 @@ public class TimeTable extends JFrame implements ActionListener {
 		}
 
 		field[0].setText("17");
-		field[1].setText("381");
+		field[1].setText("543");
 		field[2].setText("ute-s-92.stu");
 		field[3].setText("1");
 	}
@@ -69,11 +69,13 @@ public class TimeTable extends JFrame implements ActionListener {
 	}
 
 	public void actionPerformed(ActionEvent click) {
-		int min, step, clashes;
+		int min = Integer.MAX_VALUE, step = 0, clashes;
 
 		switch (getButtonIndex((JButton) click.getSource())) {
 			case 0:
 				int slots = Integer.parseInt(field[0].getText());
+				min = Integer.MAX_VALUE;
+				step =0;
 				courses = new CourseArray(Integer.parseInt(field[1].getText()) + 1, slots);
 				courses.readClashes(field[2].getText());
 				draw();
@@ -96,7 +98,19 @@ public class TimeTable extends JFrame implements ActionListener {
 				setVisible(true);
 				break;
 			case 2:
-			case 4: // Continue button logic
+				int iter =0;
+				int temp = Integer.parseInt(field[3].getText());
+				for (int iteration = 1; iteration <= temp; iteration++) {
+					courses.iterate(Integer.parseInt(field[4].getText()));
+					draw();
+					iter++;
+					clashes = courses.clashesLeft();
+					if (clashes < min) {
+						min = clashes;
+					}
+				}
+				setVisible(true);
+			case 4:
 				courses.iterate(Integer.parseInt(field[4].getText()));
 				draw();
 				break;
@@ -105,7 +119,6 @@ public class TimeTable extends JFrame implements ActionListener {
 				for (int i = 1; i < courses.length(); i++)
 					System.out.println(i + "\t" + courses.slot(i) + "\t" + courses.status(i));
 				break;
-			// Continue from the current state
 			case 5:
 				System.exit(0);
 		}
